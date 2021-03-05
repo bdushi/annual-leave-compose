@@ -15,14 +15,59 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "SERVER_URL", '"https://annual-leave-al.herokuapp.com/"'
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+        }
         release {
+            buildConfigField "String", "SERVER_URL", '"https://annual-leave-al.herokuapp.com/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    // https://developer.android.com/studio/build/build-variants
+    // https://docs.gradle.org/current/userguide/dependency_management.html
+    // https://medium.com/@ramonrabello/best-practices-for-working-with-different-build-types-c5cd08b1adc6
+    // https://sgkantamani.medium.com/android-product-flavors-eb526e35f9f1
+    // https://blog.jakelee.co.uk/how-to-define-buildconfig-values-e-g-server-url-using-both-build-flavor-and-build-type/
+    flavorDimensions "api", "brand"
+    productFlavors {
+        qtu {
+            // Assigns this product flavor to the "mode" flavor dimension.
+            dimension "brand"
+        }
+        teg {
+            dimension "brand"
+        }
+        // Configurations in the "api" product flavors override those in "mode"
+        // flavors and the defaultConfig block. Gradle determines the priority
+        // between flavor dimensions based on the order in which they appear next
+        // to the flavorDimensions property above--the first dimension has a higher
+        // priority than the second, and so on.
+        minApi21 {
+            dimension "api"
+            minSdkVersion 21
+            // To ensure the target device receives the version of the app with
+            // the highest compatible API level, assign version codes in increasing
+            // value with API level. To learn more about assigning version codes to
+            // support app updates and uploading to Google Play, read Multiple APK Support
+            versionCode 1 + android.defaultConfig.versionCode
+            versionNameSuffix "-minApi21"
+        }
+        minApi24 {
+            dimension "api"
+            minSdkVersion 24
+            // To ensure the target device receives the version of the app with
+            // the highest compatible API level, assign version codes in increasing
+            // value with API level. To learn more about assigning version codes to
+            // support app updates and uploading to Google Play, read Multiple APK Support
+            versionCode 1 + android.defaultConfig.versionCode
+            versionNameSuffix "-minApi24"
         }
     }
     compileOptions {
@@ -38,7 +83,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.4.10'
+        kotlinCompilerVersion kotlin_version
     }
     compileOptions {
         // Flag to enable support for the new language APIs
@@ -50,26 +95,28 @@ android {
 }
 
 dependencies {
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.3.0-beta01'
+    implementation 'com.google.android.material:material:1.4.0-alpha01'
     implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
     implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    //
+    implementation "androidx.paging:paging-compose:$paging_compose_version"
 
     // Java 8
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs_version"
     // Navigation
     implementation "androidx.navigation:navigation-compose:$nav_compose_version"
 
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0'
 
-//     Not needed
-    implementation 'androidx.datastore:datastore-core:1.0.0-alpha04'
-    implementation 'androidx.datastore:datastore-preferences:1.0.0-alpha04'
-    implementation 'com.google.protobuf:protobuf-javalite:3.13.0'
+    // Not needed
+    implementation 'androidx.datastore:datastore-core:1.0.0-alpha06'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0-alpha06'
+    implementation 'com.google.protobuf:protobuf-javalite:3.14.0'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -82,7 +129,7 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt_version"
     kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
 
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

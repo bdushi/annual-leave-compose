@@ -3,7 +3,7 @@ package com.example.compose.data.source.local
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.compose.common.TOKEN
 import com.example.compose.data.source.AuthDataSource
 import kotlinx.coroutines.flow.Flow
@@ -19,14 +19,19 @@ class AuthLocalDataSource @Inject constructor(private val dataStore: DataStore<P
 
     override fun token(): Flow<String?> {
         return dataStore.data.map {
-            it[preferencesKey(TOKEN)]
+            it[stringPreferencesKey(TOKEN)]
         }
     }
 
     override suspend fun token(token: String) {
         dataStore.edit {
-            it[preferencesKey(TOKEN)] = token
+            it[stringPreferencesKey(TOKEN)] = token
         }
     }
 
+    override suspend fun clear() {
+        dataStore.edit {
+            it.clear()
+        }
+    }
 }

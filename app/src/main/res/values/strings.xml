@@ -1,4 +1,20 @@
 <resources>
-    <string name="app_name">Compose</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">SignIn</string>
+    <string name="sign_in_title">SignIn</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="add_leave">Add Leave</string>
+    <string name="app_name">AnnualLeaves</string>
     <string name="save">Save</string>
+    <string name="requested_by">Requested By</string>
+    <string name="requested_date">Requested Date</string>
+    <string name="end_date">End Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="leave_type">Leave Type</string>
+    <string name="leave_description">Leave Description</string>
+    <string name="leave_comment">Leave Comment</string>
+    <string name="approved">Approved</string>
+    <string name="description">Description</string>
+    <string name="comment">Comment</string>
 </resources>

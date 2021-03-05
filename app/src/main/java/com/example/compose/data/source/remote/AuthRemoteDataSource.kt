@@ -19,4 +19,8 @@ class AuthRemoteDataSource @Inject constructor(private val authService: AuthServ
     override suspend fun token(token: String) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun clear() {
+        TODO("Not yet implemented")
+    }
 }

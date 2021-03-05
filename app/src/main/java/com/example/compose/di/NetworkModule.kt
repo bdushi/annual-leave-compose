@@ -1,8 +1,9 @@
 package com.example.compose.di
 
-import com.example.compose.common.URL
+import com.example.compose.common.SERVER_URL
 import com.example.compose.data.source.remote.service.AuthService
 import com.example.compose.data.source.remote.service.LeaveService
+import com.example.compose.data.source.remote.service.LeaveTypesService
 import com.example.compose.interceptor.*
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -11,7 +12,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,18 +21,18 @@ import java.time.LocalDateTime
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 class NetworkModuleNetworkModule {
     @Provides
     @Singleton
     fun providerRetrofit(authInterceptor: AuthInterceptor, authorizationInterceptor: AuthorizationInterceptor): Retrofit {
         return Retrofit
             .Builder()
-            .baseUrl(URL)
+            .baseUrl(SERVER_URL)
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor(authInterceptor)
-                    .addInterceptor(authorizationInterceptor)
+//                    .addInterceptor(authorizationInterceptor)
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .build()
             )
@@ -71,11 +72,11 @@ class NetworkModuleNetworkModule {
         return retrofit.create(AuthService::class.java)
     }
 
-//    @Provides
-//    @Reusable
-//    fun userService(retrofit: Retrofit): UserService {
-//        return retrofit.create(UserService::class.java)
-//    }
+    @Provides
+    @Reusable
+    fun leaveTypesService(retrofit: Retrofit): LeaveTypesService {
+        return retrofit.create(LeaveTypesService::class.java)
+    }
 
     @Provides
     @Reusable

@@ -1,15 +1,16 @@
-package com.example.compose
+package com.example.compose.nav
 
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import com.example.compose.Destinations.LeaveDetail
-import com.example.compose.Destinations.AddLeave
-import com.example.compose.Destinations.SignIn
+import com.example.compose.nav.Destinations.LeaveDetail
+import com.example.compose.nav.Destinations.AddLeave
+import com.example.compose.nav.Destinations.SignUp
 
 object Destinations {
     const val Home = "home"
     const val AddLeave = "addLeave"
     const val SignIn = "signIn"
+    const val SignUp = "signUp"
     const val LeaveDetail = "leaveDetail"
 
     object LeaveDetailArgs {
@@ -24,22 +25,7 @@ class Actions(navController: NavHostController) {
     val addLeave: () -> Unit = {
         navController.navigate(AddLeave)
     }
-    val signIn: () -> Unit = {
-        navController.navigate(SignIn)
-    }
     val navigateUp: () -> Unit = {
         navController.popBackStack()
     }
-//    val openTask: (Int) -> Unit = { taskId ->
-//        navController.navigate("$TaskDetail/$taskId")
-//    }
-//    val addTask: () -> Unit = {
-//        navController.navigate(AddTask)
-//    }
-//    val addProject: () -> Unit = {
-//        navController.navigate(AddProject)
-//    }
-//    val navigateUp: () -> Unit = {
-//        navController.popBackStack()
-//    }
 }

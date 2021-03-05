@@ -10,10 +10,10 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource,
     private val authLocalDataSource: AuthLocalDataSource) {
+
     suspend fun auth(username: String, password: String): Response<ResponseBody> {
         return authRemoteDataSource.auth(username = username, password = password)
     }
-
 
     fun token(): Flow<String?> {
         return authLocalDataSource.token()
@@ -21,5 +21,9 @@ class AuthRepository @Inject constructor(
 
     suspend fun token(token: String) {
         return authLocalDataSource.token(token = token)
+    }
+
+    suspend fun clear() {
+        return authLocalDataSource.clear()
     }
 }
