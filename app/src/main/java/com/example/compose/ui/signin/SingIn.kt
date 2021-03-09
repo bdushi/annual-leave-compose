@@ -79,7 +79,7 @@ fun SignIn(authViewModel: AuthViewModel) {
                                         keyboardActions = KeyboardActions {
                                             this.defaultKeyboardAction(ImeAction.Next)
                                         },
-                                        isError = username.isBlank() or password.isEmpty()
+                                        isError = username.isBlank() or username.isEmpty()
                                     )
                                     TextField(
                                         modifier = Modifier
@@ -115,9 +115,6 @@ fun SignIn(authViewModel: AuthViewModel) {
                                                     contentDescription = "Show Password"
                                                 )
                                             }
-                                        },
-                                        placeholder = {
-
                                         }
                                     )
                                     Button(

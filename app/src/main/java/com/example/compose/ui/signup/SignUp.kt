@@ -17,7 +17,7 @@ fun SignUp(
                 title = { Text(text = "New Account") },
                 navigationIcon = {
                     IconButton(onClick = navigateUp) {
-                        Icons.Rounded.ArrowBack
+                        Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = "Back Button")
                     }
                 },
                 actions = {
